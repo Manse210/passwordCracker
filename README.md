@@ -4,6 +4,25 @@
 
 > Outil de cassage de hash MD5 utilisant le patron **Simple Factory**.
 
+## Compilation et exécution
+
+```bash
+# Depuis la racine du projet
+javac -d . src/*.java
+
+# Utilisation
+java -cp src Main -m DICO -h <hash>
+java -cp src Main -m BRUTE -h <hash>
+
+# Exemples
+java -cp src Main -m DICO -h 098f6bcd4621d373cade4e832627b4f6
+java -cp src Main -m BRUTE -h 098f6bcd4621d373cade4e832627b4f6
+```
+
+Ou double-cliquez sur `compile.bat` (Windows).
+
+---
+
 ## 1. Introduction
 *(À rédiger par Mamadou)*
 
