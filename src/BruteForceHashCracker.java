@@ -1,3 +1,8 @@
+/**
+ * Stratégie de cassage par force brute.
+ * Génère toutes les combinaisons possibles de lettres minuscules (a-z),
+ * de longueur 1 à {@link #MAX_LENGTH}, et compare leur hash MD5 au hash cible.
+ */
 public class BruteForceHashCracker implements HashCracker {
     private static final String ALPHABET = "abcdefghijklmnopqrstuvwxyz";
     private static final int MAX_LENGTH = 4;
@@ -17,6 +22,9 @@ public class BruteForceHashCracker implements HashCracker {
         return null;
     }
 
+    /**
+     * Explore récursivement toutes les combinaisons d'une longueur donnée.
+     */
     private String tryLength(String hash, String prefix, int length) {
         if (prefix.length() == length) {
             attempts++;
@@ -29,6 +37,9 @@ public class BruteForceHashCracker implements HashCracker {
         return null;
     }
 
+    /**
+     * @return le nombre de tentatives effectuées lors du dernier appel à {@link #crack(String)}
+     */
     public int getAttempts() {
         return attempts;
     }
