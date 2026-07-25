@@ -25,7 +25,7 @@ Ou double-cliquez sur `compile.bat` (Windows).
 
 ## 1. Introduction
 
-Le présent projet a pour objectif la conception et le développement d'un outil de cassage de mots de passe hashés en **MD5**, en utilisant le patron de conception **Simple Factory** (fabrique simple). Il s'inscrit dans le cadre du module de **Génie Logiciel** et vise à mettre en pratique les principes de conception orientée objet, en particulier le découplage entre le code client et les stratégies concrètes.
+Le présent projet a pour objectif la conception et le développement d'un outil de cassage de mots de passe hashés en **MD5**, en utilisant le patron de conception **Simple Factory** (fabrique simple). Il s'inscrit dans le cadre du cours de **Initiation aux Patrons de Conception et aux Tests Logiciels** et vise à mettre en pratique les principes de conception orientée objet, en particulier le découplage entre le code client et les stratégies concrètes.
 
 L'outil supporte deux méthodes de cassage :
 - **Attaque par dictionnaire** : parcourt une liste de mots courants.
@@ -173,7 +173,7 @@ public class HashCrackerFactory {
 
 ## 6. Résultats obtenus
 
-Les tests ont été réalisés sur un PC Windows 11 avec JDK 17. Le dictionnaire utilisé contient 28 mots courants.
+Les tests ont été réalisés sur un PC Windows 11 avec JDK 17. Le dictionnaire utilisé contient 109 mots courants.
 
 ### Tableau des tests
 
@@ -187,14 +187,14 @@ Les tests ont été réalisés sur un PC Windows 11 avec JDK 17. Le dictionnaire
 | `hello` | `5d41402abc4b2a76b9719d911017c592` | DICO | ✅ found | 15 | 7 |
 | `hello` | `5d41402abc4b2a76b9719d911017c592` | BRUTE | ❌ not found | 2 219 | 475 254 |
 | `java` | `93f725a07423fe1c889f448b33d21f46` | DICO | ✅ found | 32 | 9 |
-| `abc` | `900150983cd24fb0d6963f7d28e17f72` | DICO | ❌ not found | 29 | 28 |
-| `abc` | `900150983cd24fb0d6963f7d28e17f72` | BRUTE | ✅ found | 75 | 731 |
-| `xyz` | `d16fb36f0911f878998c136191af705e` | DICO | ❌ not found | 24 | 28 |
+| `abc` | `900150983cd24fb0d6963f7d28e17f72` | DICO | ❌ not found | 53 | 109 |
+| `abc` | `900150983cd24fb0d6963f7d28e17f72` | BRUTE | ✅ found | 79 | 731 |
+| `xyz` | `d16fb36f0911f878998c136191af705e` | DICO | ❌ not found | 42 | 109 |
 | `xyz` | `d16fb36f0911f878998c136191af705e` | BRUTE | ✅ found | 547 | 16 900 |
 
 ### Analyse des résultats
 
-- **Dictionnaire** : très rapide (15-32 ms), mais limité aux mots présents dans le fichier. Sur 28 mots testés, seuls ceux du dictionnaire sont trouvés.
+- **Dictionnaire** : très rapide (15-32 ms), mais limité aux mots présents dans le fichier. Sur les mots testés, seuls ceux du dictionnaire sont trouvés.
 - **Force brute** : garantit de trouver les mots ≤ 4 lettres, mais le temps croît exponentiellement :
   - 1 lettre → 1 tentative
   - 2 lettres → 702 tentatives

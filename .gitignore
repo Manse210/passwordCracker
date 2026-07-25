@@ -1,4 +1,5 @@
 *.class
+*.docx
 target/
 .idea/
 *.iml
