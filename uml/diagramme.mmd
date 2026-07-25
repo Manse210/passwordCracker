@@ -1,0 +1,42 @@
+classDiagram
+    class HashCracker {
+        <<interface>>
+        +crack(hash: String) String
+    }
+
+    class HashUtils {
+        +md5(input: String) String$
+    }
+
+    class DictionaryHashCracker {
+        -dictionaryPath: String
+        -attempts: int
+        +DictionaryHashCracker(dictionaryPath: String)
+        +crack(hash: String) String
+        +getAttempts() int
+    }
+
+    class BruteForceHashCracker {
+        -ALPHABET: String
+        -MAX_LENGTH: int
+        -attempts: int
+        +BruteForceHashCracker()
+        +crack(hash: String) String
+        +getAttempts() int
+        -tryLength(hash: String, prefix: String, length: int) String
+    }
+
+    class HashCrackerFactory {
+        +create(method: String) HashCracker$
+    }
+
+    class Main {
+        +main(args: String[]) void$
+    }
+
+    HashCracker <|.. DictionaryHashCracker
+    HashCracker <|.. BruteForceHashCracker
+    HashCrackerFactory ..> HashCracker : crée
+    DictionaryHashCracker ..> HashUtils : utilise
+    BruteForceHashCracker ..> HashUtils : utilise
+    Main ..> HashCrackerFactory : utilise
