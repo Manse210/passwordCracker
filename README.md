@@ -16,7 +16,7 @@ java -cp bin Main -m DICO -h <hash>
 java -cp bin Main -m BRUTE -h <hash>
 
 # Exemples
-java -cp bin Main -m DICO -h 21232f297a57a5a743894a0e4a801fc3
+java -cp bin Main -m DICO -h 098f6bcd4621d373cade4e832627b4f6
 java -cp bin Main -m BRUTE -h 098f6bcd4621d373cade4e832627b4f6
 ```
 
@@ -178,22 +178,17 @@ public class HashCrackerFactory {
 
 Les tests ont été réalisés sur un PC Windows 11 avec JDK 17. Le dictionnaire utilisé contient 109 mots courants.
 
-### Tableau des tests
+### Tableau récapitulatif des tests
 
-| Mot testé | Hash MD5 | Méthode | Résultat | Temps (ms) | Tentatives |
-|---|---|---|---|---|---|
-| `a` | `0cc175b9c0f1b6a831c399e269772661` | BRUTE | ✅ found | 29 | 1 |
-| `test` | `098f6bcd4621d373cade4e832627b4f6` | DICO | ✅ found | 18 | 6 |
-| `test` | `098f6bcd4621d373cade4e832627b4f6` | BRUTE | ✅ found | 1 831 | 355 414 |
-| `admin` | `21232f297a57a5a743894a0e4a801fc3` | DICO | ✅ found | 23 | 3 |
-| `admin` | `21232f297a57a5a743894a0e4a801fc3` | BRUTE | ❌ not found | 2 374 | 475 254 |
-| `hello` | `5d41402abc4b2a76b9719d911017c592` | DICO | ✅ found | 15 | 7 |
-| `hello` | `5d41402abc4b2a76b9719d911017c592` | BRUTE | ❌ not found | 2 219 | 475 254 |
-| `java` | `93f725a07423fe1c889f448b33d21f46` | DICO | ✅ found | 32 | 9 |
-| `abc` | `900150983cd24fb0d6963f7d28e17f72` | DICO | ❌ not found | 53 | 109 |
-| `abc` | `900150983cd24fb0d6963f7d28e17f72` | BRUTE | ✅ found | 79 | 731 |
-| `xyz` | `d16fb36f0911f878998c136191af705e` | DICO | ❌ not found | 42 | 109 |
-| `xyz` | `d16fb36f0911f878998c136191af705e` | BRUTE | ✅ found | 547 | 16 900 |
+#	Méthode	Hash MD5	Mot correspondant	Résultat	Tentatives	Temps	Remarque
+1	DICO	098f6bcd4621d373cade4e832627b4f6	test	✅ Password found: test	6	32 ms	Cas nominal, mot présent dans le dictionnaire
+2	DICO	f02368945726d5fc2a14eb576f7276c0	bonjour	✅ Password found: bonjour	1	30 ms	1er mot du dictionnaire → trouvé immédiatement
+3	DICO	d16fb36f0911f878998c136191af705e	xyz	❌ Password not found	109	39 ms	Mot absent du dictionnaire, tout le fichier parcouru (109 lignes)
+4	BRUTE	098f6bcd4621d373cade4e832627b4f6	test	✅ Password found: test	355 414	1635 ms	Cas nominal, mot ≤ 4 caractères
+5	BRUTE	d16fb36f0911f878998c136191af705e	xyz	✅ Password found: xyz	16 900	518 ms	Mot court, trouvé rapidement car proche du début de l'espace de recherche
+6	BRUTE	21232f297a57a5a743894a0e4a801fc3	admin	❌ Password not found	475 254	2065 ms	Mot de 5 caractères → hors limite imposée (max 4), tout l'espace exploré (26¹+26²+26³+26⁴ = 475 254)
+7	—	-m XYZ -h 098f6...	—	⚠️ Erreur: Méthode inconnue: XYZ	—	—	Gestion d'une méthode invalide (validation dans la fabrique)
+8	—	(aucun argument)	—	⚠️ Usage: passwordCracker -m [BRUTE|DICO] -h <hash>
 
 ### Analyse des résultats
 
@@ -212,7 +207,7 @@ Les tests ont été réalisés sur un PC Windows 11 avec JDK 17. Le dictionnaire
 ## 7. Difficultés rencontrées
 
 ### Gestion des dépendances et compilation
-Le projet utilise uniquement le JDK standard sans bibliothèque externe, ce qui simplifie la compilation et l'exécution. Les sources sont dans `src/` et les classes compilées dans `bin/` (`javac -d bin`, puis `java -cp bin Main ...`).
+Le projet utilise uniquement le JDK standard sans bibliothèque externe, ce qui simplifie la compilation et l'exécution. Cependant, il faut veiller à ce que le dossier `bin/` soit le classpath correct (`-cp bin`) lors de l'exécution.
 
 ### Découplage des stratégies
 L'utilisation du patron Simple Factory a facilité l'ajout et le test des deux stratégies. Le principal défi a été de concevoir l'interface `HashCracker` de manière à ce qu'elle soit assez générique pour couvrir les deux approches (dictionnaire et force brute).
@@ -225,14 +220,14 @@ Initialement, le plan de projet contenait un mauvais hash MD5 pour le mot "test"
 
 ## 8. Conclusion
 
-Ce projet a permis de mettre en œuvre concrètement le patron de conception **Simple Factory** dans un outil fonctionnel de cassage de hash MD5. Les deux stratégies (dictionnaire et force brute) montrent des compromis différents :
+Pour conclure, ce projet nous a permis de mettre en pratique le patron
+Simple Factory dans un contexte concret et fonctionnel. Nous avons :
+- Compris comment découpler la création d'objets de leur utilisation
+- Implémenté deux stratégies de cassage complémentaires
+- Validé le fonctionnement sur plusieurs cas de test
 
-- **Le dictionnaire** est rapide et efficace pour les mots de passe courants, mais inefficace face à des mots inconnus.
-- **La force brute** est exhaustive mais coûteuse en temps, et limitée à des mots courts dans cette implémentation.
-
-L'architecture orientée objet permet d'ajouter facilement de nouvelles stratégies (par exemple, un cracker par tables arc-en-ciel) sans modifier le code client.
-
-Le groupe 8 a ainsi démontré sa capacité à analyser un problème, concevoir une solution utilisant un patron de conception, l'implémenter en Java, et valider son fonctionnement sur des cas concrets.
+Le code source complet est disponible sur GitHub à l'adresse :
+https://github.com/Manse210/passwordCracker
 
 ---
 
