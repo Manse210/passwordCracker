@@ -202,7 +202,7 @@ Les tests ont été réalisés sur un PC Windows 11 avec JDK 17. Le dictionnaire
 
 ### 🎥 Vidéo de démonstration
 
-*(À réaliser par Harouna)*
+[🔗 Voir la vidéo de démonstration](https://youtu.be/6fYt7HGU9_Q?si=Yd8q3IlSqpZYo3fP)
 
 ## 7. Difficultés rencontrées
 
