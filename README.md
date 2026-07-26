@@ -16,7 +16,7 @@ java -cp bin Main -m DICO -h <hash>
 java -cp bin Main -m BRUTE -h <hash>
 
 # Exemples
-java -cp bin Main -m DICO -h 21232f297a57a5a743894a0e4a801fc3
+java -cp bin Main -m DICO -h 098f6bcd4621d373cade4e832627b4f6
 java -cp bin Main -m BRUTE -h 098f6bcd4621d373cade4e832627b4f6
 ```
 
@@ -212,7 +212,7 @@ Les tests ont été réalisés sur un PC Windows 11 avec JDK 17. Le dictionnaire
 ## 7. Difficultés rencontrées
 
 ### Gestion des dépendances et compilation
-Le projet utilise uniquement le JDK standard sans bibliothèque externe, ce qui simplifie la compilation et l'exécution. Les sources sont dans `src/` et les classes compilées dans `bin/` (`javac -d bin`, puis `java -cp bin Main ...`).
+Le projet utilise uniquement le JDK standard sans bibliothèque externe, ce qui simplifie la compilation et l'exécution. Cependant, il faut veiller à ce que le dossier `src/` soit le classpath correct (`-cp src`) lors de l'exécution.
 
 ### Découplage des stratégies
 L'utilisation du patron Simple Factory a facilité l'ajout et le test des deux stratégies. Le principal défi a été de concevoir l'interface `HashCracker` de manière à ce qu'elle soit assez générique pour couvrir les deux approches (dictionnaire et force brute).
